@@ -1,5 +1,9 @@
 # Project Roadmap for Currency Exchange Rate Application
 
+### DELO Z GIT:
+- Vsaka točka naj bo commit - naj jih bo čim več, saj se tako vidi kaj si razvijal in na kakšen način. (tiste točke ki so smiselne)
+- Ustvari si svojo vejo "ime_priimek"
+
 ### Dan 1: Priprava okolja in kreacija baze
 **Nastavi razvojno okolje:**
 - Namesti Node.js in npm.
