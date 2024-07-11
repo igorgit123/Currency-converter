@@ -4,7 +4,8 @@ const CurrencyRate = require("../database/models/currencyRatesModel");
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
-const dbURI = `mongodb+srv://${dbUser}:${dbPassword}@mongo.ikwf3hq.mongodb.net/currency_rates?retryWrites=true&w=majority&appName=mongo`;
+const collectionName = process.env.COLLECRION_NAME;
+const dbURI = `mongodb+srv://${dbUser}:${dbPassword}@mongo.ikwf3hq.mongodb.net/${collectionName}?retryWrites=true&w=majority&appName=mongo`;
 
 const connectDB = async () => {
   await mongoose
@@ -39,6 +40,19 @@ const deleteById = async (id) => {
   const deleteRate = await CurrencyRate.findByIdAndDelete(id);
 };
 
+const dbIsEmpty = async () => {
+  try {
+    const count = await CurrencyRate.countDocuments({});
+    if (count === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.error("Error counting documents:", err);
+  }
+};
+
 module.exports = {
   connectDB,
   getAll,
@@ -46,4 +60,5 @@ module.exports = {
   create,
   updateById,
   deleteById,
+  dbIsEmpty,
 };

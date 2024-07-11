@@ -1,19 +1,31 @@
 const mongoose = require("mongoose");
 
+const rateSchema = mongoose.Schema({
+  currency: {
+    type: String,
+    required: true,
+  },
+  rate: {
+    type: Number,
+    required: true,
+  },
+});
+
 const CurrencyRateSchema = mongoose.Schema(
   {
-    fromCurrency: {
+    base: {
       type: String,
       required: true,
     },
 
-    toCurrency: {
+    date: {
       type: String,
       required: true,
     },
 
-    course: {
-      type: Number,
+    rates: {
+      type: Map,
+      of: Number,
       required: true,
     },
   },

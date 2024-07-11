@@ -25,8 +25,8 @@
 
 **Poveži se z Fixer.io API:**
 
-- Ustvari nov endpoint v Node.js za pridobivanje valutnih tečajev iz Fixer.io API-ja. ⚠️
-- Shranjuj pridobljene tečaje v bazo podatkov. ⚠️
+- Ustvari nov endpoint v Node.js za pridobivanje valutnih tečajev iz Fixer.io API-ja. ✅
+- Shranjuj pridobljene tečaje v bazo podatkov. ✅
 
 **Nastavi avtomatizacijo:**
 
@@ -38,7 +38,7 @@
 
 - Uporabi Express.js za ustvarjanje REST API-ja. ✅
 - Implementiraj CRUD operacije za delo z valutami (Create, Read, Update, Delete). ✅
-- Ustvari endpoint za pridobivanje tečajev glede na osnovno valuto. ⚠️
+- Ustvari endpoint za pridobivanje tečajev glede na osnovno valuto. ⚠️(z free API key-em je access restricted za nastavljanje base currency, naredil sem funkcijo ki naredi base valuto glede na vse rate ko je EUR base)⚠️✅
 
 **Testiraj REST API:**
 
