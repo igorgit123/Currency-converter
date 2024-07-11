@@ -36,20 +36,39 @@ const updateById = async (id, currencyRate) => {
   const updatedRate = await CurrencyRate.findByIdAndUpdate(id, currencyRate);
 };
 
+const updateByBase = async (base, currencyRate) => {
+  const condition = `{ base: '${base}' }`;
+  const updatedRate = await CurrencyRate.findOneAndUpdate(
+    condition,
+    currencyRate
+  );
+};
+
 const deleteById = async (id) => {
   const deleteRate = await CurrencyRate.findByIdAndDelete(id);
 };
 
-const dbIsEmpty = async () => {
-  try {
-    const count = await CurrencyRate.countDocuments({});
-    if (count === 0) {
+const collectionHasDocuments = async () => {
+  //check if collection exists
+  const collections = await mongoose.connection.db
+    .listCollections({ name: collectionName })
+    .toArray();
+  if (collections.length > 0) {
+    console.log(`Collection "${collectionName}" exists.`);
+
+    // Check if collection has documents
+    const count = await mongoose.connection.db
+      .collection(collectionName)
+      .countDocuments();
+    if (count > 0) {
+      console.log(`Collection "${collectionName}" has ${count} documents.`);
       return true;
     } else {
+      console.log(`Collection "${collectionName}" is empty.`);
       return false;
     }
-  } catch (err) {
-    console.error("Error counting documents:", err);
+  } else {
+    console.log(`Collection "${collectionName}" does not exist.`);
   }
 };
 
@@ -59,6 +78,7 @@ module.exports = {
   getById,
   create,
   updateById,
+  updateByBase,
   deleteById,
-  dbIsEmpty,
+  collectionHasDocuments,
 };
