@@ -1,8 +1,10 @@
-const CurrencyRate = require("../database/models/currencyRatesModel.js");
+//const CurrencyRate = require("../database/models/currencyRatesModel.js");
+const database = require("../database/database.js");
 
 const getCurrencyRates = async (req, res) => {
   try {
-    const currencyRates = await CurrencyRate.find({});
+    const currencyRates = await database.getAll();
+
     res.status(200).json(currencyRates);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,8 +14,10 @@ const getCurrencyRates = async (req, res) => {
 const getCurrencyRate = async (req, res) => {
   try {
     const { id } = req.params;
-    const currencyRates = await CurrencyRate.findById(id);
-    res.status(200).json(currencyRates);
+
+    const currencyRate = await database.getById(id);
+
+    res.status(200).json(currencyRate);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -21,8 +25,8 @@ const getCurrencyRate = async (req, res) => {
 
 const addCurrencyRate = async (req, res) => {
   try {
-    const currencyRate = await CurrencyRate.create(req.body);
-    res.status(200).json(currencyRate);
+    const currencyRate = await database.create(req.body);
+    res.status(200).json({ message: "Rate has been added." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -32,14 +36,13 @@ const updateCurrencyRate = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const currencyRate = await CurrencyRate.findByIdAndUpdate(id, req.body);
+    const currencyRate = database.updateById(id, req.body);
 
     if (!currencyRate) {
       return res.status(404).json({ message: "Not found" });
     }
 
-    const updatedCurr = await CurrencyRate.findById(id);
-    res.status(200).json(updatedCurr);
+    res.status(200).json(currencyRate);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -49,7 +52,7 @@ const deleteCurrencyRate = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const currencyRate = await CurrencyRate.findByIdAndDelete(id);
+    const currencyRate = database.deleteById(id);
 
     if (!currencyRate) {
       return res.status(404).json({ message: "Not found" });

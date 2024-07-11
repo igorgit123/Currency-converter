@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
+const CurrencyRate = require("../database/models/currencyRatesModel");
 
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -16,4 +17,33 @@ const connectDB = async () => {
     });
 };
 
-module.exports = connectDB;
+const getAll = async () => {
+  const currencyRates = await CurrencyRate.find({});
+  return currencyRates;
+};
+
+const getById = async (id) => {
+  const currencyRate = await CurrencyRate.findById(id);
+  return currencyRate;
+};
+
+const create = async (currencyRate) => {
+  const newRate = await CurrencyRate.create(currencyRate);
+};
+
+const updateById = async (id, currencyRate) => {
+  const updatedRate = await CurrencyRate.findByIdAndUpdate(id, currencyRate);
+};
+
+const deleteById = async (id) => {
+  const deleteRate = await CurrencyRate.findByIdAndDelete(id);
+};
+
+module.exports = {
+  connectDB,
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
+};
