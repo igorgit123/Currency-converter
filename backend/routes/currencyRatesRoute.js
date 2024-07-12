@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   getCurrencyRates,
   getCurrencyRate,
+  getCurrencyRateByBase,
   addCurrencyRate,
   updateCurrencyRate,
   deleteCurrencyRate,
@@ -13,6 +14,8 @@ const {
 router.get("/", getCurrencyRates);
 
 router.get("/:id", getCurrencyRate);
+
+router.get("/base/:base", getCurrencyRateByBase);
 
 router.post("/", addCurrencyRate);
 

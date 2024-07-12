@@ -30,8 +30,7 @@
 
 **Nastavi avtomatizacijo:**
 
-- Uporabi node-cron za avtomatizirano pridobivanje in shranjevanje valutnih tečajev vsakih nekaj ur. ✅ (Vprašanje: Vsakih nekaj ur
-  posodobi tečaje ali jih na novo naloži z novimi vrednosti?)
+- Uporabi node-cron za avtomatizirano pridobivanje in shranjevanje valutnih tečajev vsakih nekaj ur. ✅
 
 ### Dan 3: Backend - CRUD operacije
 

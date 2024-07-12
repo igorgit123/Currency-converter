@@ -28,6 +28,14 @@ const getById = async (id) => {
   return currencyRate;
 };
 
+const getByBase = async (baseCurrency) => {
+  const condition = `{'base':'${baseCurrency}'}`;
+  const currencyByBase = await CurrencyRate.findOne({ base: baseCurrency })
+    .sort({ createdAt: -1 })
+    .exec();
+  return currencyByBase;
+};
+
 const create = async (currencyRate) => {
   const newRate = await CurrencyRate.create(currencyRate);
 };
@@ -76,6 +84,7 @@ module.exports = {
   connectDB,
   getAll,
   getById,
+  getByBase,
   create,
   updateById,
   updateByBase,

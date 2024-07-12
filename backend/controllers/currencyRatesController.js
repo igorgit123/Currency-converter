@@ -23,6 +23,18 @@ const getCurrencyRate = async (req, res) => {
   }
 };
 
+const getCurrencyRateByBase = async (req, res) => {
+  try {
+    const { base } = req.params;
+
+    const currencyRate = await database.getByBase(base);
+
+    res.status(200).json(currencyRate);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const addCurrencyRate = async (req, res) => {
   try {
     const currencyRate = await database.create(req.body);
@@ -67,6 +79,7 @@ const deleteCurrencyRate = async (req, res) => {
 module.exports = {
   getCurrencyRates,
   getCurrencyRate,
+  getCurrencyRateByBase,
   addCurrencyRate,
   updateCurrencyRate,
   deleteCurrencyRate,

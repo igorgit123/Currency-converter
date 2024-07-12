@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const database = require("../job_interview/database/database.js");
-const currencyRateRoutes = require("../job_interview/routes/currencyRatesRoute.js");
+const database = require("../backend/database/database.js");
+const currencyRateRoutes = require("../backend/routes/currencyRatesRoute.js");
 const bodyParser = require("body-parser");
-const currencyApi = require("../job_interview/currencyAPI/currencyAPI.js");
-const loadCurrencies = require("../job_interview/currencyAPI/initCurrencies.js");
+const currencyApi = require("../backend/currencyAPI/currencyAPI.js");
+const loadCurrencies = require("../backend/currencyAPI/initCurrencies.js");
 const app = express();
 
 const port = process.env.PORT;
