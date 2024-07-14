@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyDataServiceService } from './currency-data-service.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CurrencyRate } from './currency-data.interface';
 
 @Component({
   selector: 'app-currency-converter',
   standalone: true,
   imports: [CommonModule],
-  providers: [CurrencyDataServiceService],
+  providers: [CurrencyDataServiceService, DatePipe],
   templateUrl: './currency-converter.component.html',
   styleUrl: './currency-converter.component.css',
 })

@@ -6,6 +6,7 @@ const currencyRateRoutes = require("../backend/routes/currencyRatesRoute.js");
 const bodyParser = require("body-parser");
 const currencyApi = require("../backend/currencyAPI/currencyAPI.js");
 const loadCurrencies = require("../backend/currencyAPI/initCurrencies.js");
+const cors = require("cors");
 const app = express();
 
 const port = process.env.PORT;
@@ -16,6 +17,7 @@ app.listen(port, () => {
   console.log("Server is running on port 3000");
 });
 
+app.use(cors());
 app.use("/currencyRates", currencyRateRoutes);
 
 app.get("/", (req, res) => {

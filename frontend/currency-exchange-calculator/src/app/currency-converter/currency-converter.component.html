@@ -1,51 +1,49 @@
-<h2>Selected Currency Exchange Calculator</h2>
-<button (click)="loadCurrencies()">Refresh currency rates</button>
-<div>
-  <label for="numberInput">Enter an amount: </label>
-  <input
-    type="number"
-    id="numberInput"
-    [defaultValue]="1"
-    (input)="onNumberChange($event)"
-  />
-</div>
+<div class="container">
+  <h2>Currency Exchange Calculator</h2>
+  <button (click)="loadCurrencies()">Refresh currency rates</button>
 
-<div *ngIf="currencyRates.length > 0">
-  <label for="currency-select">Select a currency:</label>
-  <select id="currency-select" (change)="onSelectBaseCurrency($event)">
-    <option *ngFor="let rate of currencyRates" [value]="rate">
-      {{ rate.base }}
+  <div>
+    <label for="numberInput">Enter an amount:</label>
+    <input
+      type="number"
+      id="numberInput"
+      [defaultValue]="1"
+      (input)="onNumberChange($event)"
+    />
+  </div>
+
+  <div *ngIf="currencyRates.length > 0">
+    <label for="currency-select">Select a currency:</label>
+    <select id="currency-select" (change)="onSelectBaseCurrency($event)">
+      <option *ngFor="let rate of currencyRates" [value]="rate">
+        {{ rate.base }}
+      </option>
+    </select>
+
+    <div *ngIf="selectedBaseCurrency" class="result">
+      <p>Base: {{ selectedBaseCurrency.base }}</p>
+      <p>
+        Last update:
+        {{ selectedBaseCurrency.createdAt | date : "full" : "en-US" }}
+      </p>
+    </div>
+  </div>
+
+  <select id="currency-rate" (change)="onSelectCurrencyRate($event)">
+    <option
+      *ngFor="
+        let currency of selectedBaseRates | keyvalue : customKeyValueOrder
+      "
+      [value]="currency | json"
+    >
+      {{ currency.key }} : {{ currency.value }}
     </option>
   </select>
 
-  <div *ngIf="selectedBaseCurrency">
-    <p>Base: {{ selectedBaseCurrency.base }}</p>
-    <p>Date: {{ selectedBaseCurrency.date }}</p>
-    <p>Rates:</p>
-    <!--    <ul>
-      <li
-        *ngFor="
-          let currency of selectedBaseRates | keyvalue : customKeyValueOrder
-        "
-      >
-        {{ currency.key }} : {{ currency.value }}
-      </li>
-    </ul> -->
-    <p>Created At: {{ selectedBaseCurrency.createdAt }}</p>
-    <p>Updated At: {{ selectedBaseCurrency.updatedAt }}</p>
-  </div>
-</div>
-
-<select id="currency-rate" (change)="onSelectCurrencyRate($event)">
-  <option
-    *ngFor="let currency of selectedBaseRates | keyvalue : customKeyValueOrder"
-    [value]="currency | json"
+  <div
+    *ngIf="isElementVisible"
+    [ngClass]="{ visible: isElementVisible, hidden: !isElementVisible }"
   >
-    {{ currency.key }} : {{ currency.value }}
-  </option>
-</select>
-<div>
-  <div *ngIf="isElementVisible">
     <p>
       {{ getAmountValue() }} {{ getSelectedBaseCurrencyBase() }} =
       {{ calculateExchange() }} {{ getSelectedRateKey() }}
