@@ -27,6 +27,44 @@ export class CurrencyConverterComponent implements OnInit {
     this.loadCurrencies();
   }
 
+  loadCurrencies() {
+    // console.log('Loading currencies...'); // Debugging log
+    this.dataService.getCurrencyRates().subscribe(
+      (data: CurrencyRate[]) => {
+        this.currencyRates = data;
+        this.loadFirstCurrencyToPage();
+      },
+      (error) => {
+        console.error('Error fetching currency rates:', error); // Log error details
+      }
+    );
+  }
+
+  customKeyValueOrder = (
+    a: { key: string; value: number },
+    b: { key: string; value: number }
+  ): number => {
+    return 0;
+  };
+
+  loadFirstCurrencyToPage() {
+    if (this.currencyRates.length > 0) {
+      this.selectedBaseCurrency = this.currencyRates[0];
+      this.selectedBaseRates = this.selectedBaseCurrency.rates;
+      this.selectedBaseRateKeys = Object.keys(this.selectedBaseRates);
+
+      this.selectedRate =
+        this.selectedBaseCurrency.rates[this.selectedBaseRateKeys[0]];
+      this.selectedRateKey = this.selectedBaseRateKeys[0];
+      // console.log('First currency loaded:', this.selectedBaseCurrency); // Debugging log
+
+      this.calculateExchange();
+      this.toggleVisibility();
+    } else {
+      console.error('No currencies available to load'); // Additional error handling
+    }
+  }
+
   onSelectBaseCurrency(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedIndex = target.selectedIndex;
@@ -48,7 +86,10 @@ export class CurrencyConverterComponent implements OnInit {
 
   onSelectCurrencyRate(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    this.selectedRate = +target.value;
+    const selectedValue = target.value;
+    const selectedCurrency = JSON.parse(selectedValue);
+    this.selectedRate = selectedCurrency.value;
+    this.selectedRateKey = selectedCurrency.key;
   }
 
   onNumberChange(event: Event): void {
@@ -56,6 +97,7 @@ export class CurrencyConverterComponent implements OnInit {
     this.amountValue = +input.value;
     this.calculateExchange();
   }
+
   toggleVisibility() {
     this.isElementVisible = true;
   }
@@ -63,19 +105,13 @@ export class CurrencyConverterComponent implements OnInit {
   calculateExchange(): number {
     return this.amountValue * this.selectedRate;
   }
-  loadCurrencies() {
-    this.dataService.getCurrencyRates().subscribe(
-      (data: CurrencyRate[]) => {
-        this.currencyRates = data;
-      },
-      (error) => {
-        console.error('Error fetching currency rates:', error);
-      }
-    );
-    this.selectedBaseCurrency = this.currencyRates[0];
-  }
+
   getSelectedBaseCurrencyBase() {
     return this.selectedBaseCurrency?.base;
+  }
+
+  getSelectedRateKey() {
+    return this.selectedRateKey;
   }
 
   getAmountValue() {

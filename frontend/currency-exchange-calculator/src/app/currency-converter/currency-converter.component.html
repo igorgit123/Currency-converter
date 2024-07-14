@@ -22,9 +22,13 @@
     <p>Base: {{ selectedBaseCurrency.base }}</p>
     <p>Date: {{ selectedBaseCurrency.date }}</p>
     <p>Rates:</p>
-    <!--     <ul>
-      <li *ngFor="let key of selectedBaseRateKeys">
-        {{ key }} : {{ getValue(key) }}
+    <!--    <ul>
+      <li
+        *ngFor="
+          let currency of selectedBaseRates | keyvalue : customKeyValueOrder
+        "
+      >
+        {{ currency.key }} : {{ currency.value }}
       </li>
     </ul> -->
     <p>Created At: {{ selectedBaseCurrency.createdAt }}</p>
@@ -33,15 +37,18 @@
 </div>
 
 <select id="currency-rate" (change)="onSelectCurrencyRate($event)">
-  <option *ngFor="let key of selectedBaseRateKeys" [value]="getValue(key)">
-    {{ key }} : {{ getValue(key) }}
+  <option
+    *ngFor="let currency of selectedBaseRates | keyvalue : customKeyValueOrder"
+    [value]="currency | json"
+  >
+    {{ currency.key }} : {{ currency.value }}
   </option>
 </select>
 <div>
   <div *ngIf="isElementVisible">
     <p>
       {{ getAmountValue() }} {{ getSelectedBaseCurrencyBase() }} =
-      {{ calculateExchange() }} {{ "" }}
+      {{ calculateExchange() }} {{ getSelectedRateKey() }}
     </p>
   </div>
 </div>
