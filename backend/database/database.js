@@ -19,7 +19,23 @@ const connectDB = async () => {
 };
 
 const getAll = async () => {
-  const currencyRates = await CurrencyRate.find({});
+  const currencyRates = await CurrencyRate.aggregate([
+    // Sort by base and createdAt in descending order to prepare for grouping
+    { $sort: { base: 1, createdAt: -1 } },
+    // Group by the base field and get the most recent document in each group
+    {
+      $group: {
+        _id: "$base",
+        mostRecent: { $first: "$$ROOT" },
+      },
+    },
+    // Replace the root document with the most recent document
+    { $replaceRoot: { newRoot: "$mostRecent" } },
+    // Sort the final results by base alphabetically
+    { $sort: { base: 1 } },
+  ]);
+
+  //.find({});
   return currencyRates;
 };
 

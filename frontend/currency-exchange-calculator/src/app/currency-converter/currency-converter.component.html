@@ -1,0 +1,47 @@
+<h2>Selected Currency Exchange Calculator</h2>
+<button (click)="loadCurrencies()">Refresh currency rates</button>
+<div>
+  <label for="numberInput">Enter an amount: </label>
+  <input
+    type="number"
+    id="numberInput"
+    [defaultValue]="1"
+    (input)="onNumberChange($event)"
+  />
+</div>
+
+<div *ngIf="currencyRates.length > 0">
+  <label for="currency-select">Select a currency:</label>
+  <select id="currency-select" (change)="onSelectBaseCurrency($event)">
+    <option *ngFor="let rate of currencyRates" [value]="rate">
+      {{ rate.base }}
+    </option>
+  </select>
+
+  <div *ngIf="selectedBaseCurrency">
+    <p>Base: {{ selectedBaseCurrency.base }}</p>
+    <p>Date: {{ selectedBaseCurrency.date }}</p>
+    <p>Rates:</p>
+    <!--     <ul>
+      <li *ngFor="let key of selectedBaseRateKeys">
+        {{ key }} : {{ getValue(key) }}
+      </li>
+    </ul> -->
+    <p>Created At: {{ selectedBaseCurrency.createdAt }}</p>
+    <p>Updated At: {{ selectedBaseCurrency.updatedAt }}</p>
+  </div>
+</div>
+
+<select id="currency-rate" (change)="onSelectCurrencyRate($event)">
+  <option *ngFor="let key of selectedBaseRateKeys" [value]="getValue(key)">
+    {{ key }} : {{ getValue(key) }}
+  </option>
+</select>
+<div>
+  <div *ngIf="isElementVisible">
+    <p>
+      {{ getAmountValue() }} {{ getSelectedBaseCurrencyBase() }} =
+      {{ calculateExchange() }} {{ "" }}
+    </p>
+  </div>
+</div>
