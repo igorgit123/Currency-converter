@@ -103,7 +103,7 @@ export class CurrencyConverterComponent implements OnInit {
   }
 
   calculateExchange(): number {
-    return this.amountValue * this.selectedRate;
+    return this.roundTwoDecimals(this.amountValue * this.selectedRate);
   }
 
   getSelectedBaseCurrencyBase() {
@@ -116,5 +116,8 @@ export class CurrencyConverterComponent implements OnInit {
 
   getAmountValue() {
     return this.amountValue;
+  }
+  roundTwoDecimals(num: number) {
+    return Math.round(num * 100) / 100;
   }
 }
